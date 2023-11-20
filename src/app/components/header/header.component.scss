@@ -1,0 +1,32 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.navbar {
+    background-color: rgb(33, 150, 243);
+
+    &__wrapper {
+        max-width: 1280px;
+        margin: 0px auto;
+        padding: 16px 0px;
+        display: flex;
+        gap: 16px;
+    }
+
+}
+
+.app-logo {
+    margin: 0 auto;
+    text-align: center;
+}
+.app-img {
+    width: 128px;
+}
+
+.app-name {
+	color: #1f294c;
+	font-size: 40px;
+	line-height: normal;
+	font-weight: bold;
+    font-family: monospace;
+}
