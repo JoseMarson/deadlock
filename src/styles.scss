@@ -1,4 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+	margin: 0;
+}
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	margin-right: -16px;
+	margin-left: -16px;
+}
+
+.col {
+	flex-basis: 0;
+	flex-grow: 1;
+	position: relative;
+	width: 100%;
+	padding-right: 16px;
+	padding-left: 16px;
+}
+
+.spacer {
+	flex: 1 1;
+}
+
+.mx-none {
+	max-width: none !important;
+}
+
+.mh-none {
+	max-height: none !important;
+}
