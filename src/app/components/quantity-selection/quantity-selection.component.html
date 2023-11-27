@@ -7,7 +7,7 @@
           <mat-icon class="remove-icon">do_not_disturb_on</mat-icon>
         </button>
       
-        <input matInput readonly formControlName="quantidadeFilosofos" style="color: black; text-align: center;" />
+        <input matInput readonly formControlName="quantidadeFilosofos" [value]="quantidadeFilosofos" style="color: black; text-align: center;" />
       
         <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade()">
           <mat-icon class="add-icon">add_circle</mat-icon>
@@ -15,3 +15,4 @@
       </mat-form-field>
         <button mat-raised-button color="primary" (click)="aplicarConfiguracoes()">Aplicar</button>
 </form>
+<app-logic-application-philosophers [quantidadeFilosofos]="quantidadeFilosofos"></app-logic-application-philosophers>
