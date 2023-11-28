@@ -4,6 +4,16 @@
         <img class="app-img" src="assets/images/cpu-logo.png">
         <div class="app-name">SimulateOS</div>
     </div>
+    <button mat-mini-fab (click)="toggleNav()" class="toggle-button">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="menu-container" [ngClass]="{'show': showNav, 'hide': !showNav}">
+      <ul>
+        <li><a href="">Jantar dos Filosofos</a></li>
+        <li><a href="">Algoritmo do Banqueiro</a></li>
+      </ul>
+    </div>
   </div>
-</div>
   
+</div>
+

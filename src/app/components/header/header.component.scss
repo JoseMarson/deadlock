@@ -4,6 +4,8 @@
 }
 .navbar {
     background-color: rgb(33, 150, 243);
+    position: relative;
+    
 
     &__wrapper {
         max-width: 1280px;
@@ -14,7 +16,50 @@
     }
 
 }
+.toggle-button {
+    background-color: rgb(33, 150, 243);
+    color: #fff;
+  }
 
+.show {
+    display: block !important; 
+  }
+  
+.hide {
+    display: none !important;
+  }
+
+
+  .menu-container {
+    position: absolute;
+    top: 30%; 
+    left: 85%;
+    width: 100%;
+    background-color:  rgb(33, 150, 243); 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    display: none; 
+  }
+  
+  .menu-container.show {
+    display: block; 
+  }
+  
+  .menu-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menu-container li {
+    padding: 10px;
+  }
+  
+  .menu-container a {
+    text-decoration: none;
+    color: #000; 
+  }
+  
+  
 .app-logo {
     margin: 0 auto;
     text-align: center;
