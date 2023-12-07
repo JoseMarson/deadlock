@@ -1,4 +1,3 @@
-<div>
-    <img id="mesa-img" src="">
-    <p>Quantidade de Filósofos: {{ quantidadeFilosofos }}</p>
-</div>
+    <div id="mesa-img" *ngIf="quantidadeFilosofos !== undefined">
+        <img [src]="imagemFilosofo" alt="" />
+     </div>
