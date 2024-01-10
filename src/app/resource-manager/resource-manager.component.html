@@ -1,0 +1,23 @@
+<form class="banqueiro-settings" [formGroup]="bankerForm">
+    <div class="app-logo">Algoritmo do Banqueiro</div>
+    <mat-radio-group aria-label="Select an option" formControlName="selectedOption">
+        <mat-radio-button value="1">Unico Recurso</mat-radio-button>
+        <mat-radio-button value="2">Multiplos Recursos</mat-radio-button>
+    </mat-radio-group>
+    <div *ngIf="bankerForm && bankerForm.get('selectedOption')?.value === '1'">
+        <mat-form-field appearance="outline" style="text-align: center;">
+            <mat-label style="color: rgb(103, 104, 106);">Quantidade de credito do recurso</mat-label>
+        
+            <button matPrefix mat-icon-button type="button" (click)="decrementarQuantidade()">
+                <mat-icon class="remove-icon">do_not_disturb_on</mat-icon>
+            </button>
+        
+            <input matInput readonly formControlName="creditosDoRecurso" style="color: black; text-align: center;" />
+        
+            <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade()">
+                <mat-icon class="add-icon">add_circle</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <button mat-raised-button class="aplicar-button" type="button">Aplicar</button>
+</form>
