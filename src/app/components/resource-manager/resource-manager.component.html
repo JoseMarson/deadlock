@@ -19,5 +19,22 @@
             </button>
         </mat-form-field>
     </div>
+    <div *ngIf="bankerForm && bankerForm.get('selectedOption')?.value === '2'">
+        <mat-form-field appearance="outline" style="text-align: center;">
+            <mat-label style="color: rgb(103, 104, 106);">Quantidade de recursos</mat-label>
+        
+            <button matPrefix mat-icon-button type="button" (click)="decrementarQuantidade()">
+                <mat-icon class="remove-icon">do_not_disturb_on</mat-icon>
+            </button>
+        
+            <input matInput readonly formControlName="quantidadeRecurso" style="color: black; text-align: center;" />
+        
+            <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade()">
+                <mat-icon class="add-icon">add_circle</mat-icon>
+            </button>
+        </mat-form-field>
+
+    </div>
+    <button mat-raised-button class="abrir-modal" (click)="openModal()" [disabled]="bankerForm.get('selectedOption')?.value == ''" type="button">Criar processo</button>
     <button mat-raised-button class="aplicar-button" type="button">Aplicar</button>
 </form>

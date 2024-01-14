@@ -1,8 +1,14 @@
 .mat-radio-button ~ .mat-radio-button {
     margin-left: 16px;
   }
-  mat-radio-button{
-    background-color: black;
+
+  ::ng-deep {
+	  .mdc-label {
+		color: black;
+	  }
+	  .mdc-radio__native-control {
+		color: black;
+  } 
   }
 
   .app-logo {
@@ -16,7 +22,7 @@
 }
 
 .banqueiro-settings {
-	
+	background-color: rgb(227, 242, 253);
 	padding: 24px;
 	display: flex;
 	justify-content: space-between;
@@ -61,3 +67,15 @@
 		}
 	}
 }
+
+.banqueiro-settings .aplicar-button {
+	background-color: rgb(33, 150, 243);
+	color: #fff;
+  }
+
+  .banqueiro-settings .abrir-modal{
+	background-color: rgb(33, 150, 243);
+	color: #fff;
+}
+  
+  
