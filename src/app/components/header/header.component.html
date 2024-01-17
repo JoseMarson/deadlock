@@ -1,18 +1,16 @@
 <div class="navbar">
-    <div class="navbar__wrapper">
       <div class="app-logo">
         <img class="app-img" src="assets/images/cpu-logo.png">
         <div class="app-name">SimulateOS</div>
-    </div>
+      </div>
     <button mat-mini-fab (click)="toggleNav()" class="toggle-button">
       <mat-icon>menu</mat-icon>
     </button>
     <div class="menu-container" [ngClass]="{'show': showNav, 'hide': !showNav}">
       <ul>
-        <li><a href="">Jantar dos Filosofos</a></li>
-        <li><a href="">Algoritmo do Banqueiro</a></li>
+        <li [routerLink]="'/JantarDosFilosofos'">Jantar dos Filosofos</li>
+        <li [routerLink]="'/AlgoritmoDoBanqueiro'">Algoritmo do Banqueiro</li>
       </ul>
-    </div>
   </div>
   
 </div>

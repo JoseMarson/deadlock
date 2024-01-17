@@ -3,12 +3,24 @@
   }
 
   ::ng-deep {
-	  .mdc-label {
+	.mdc-label {
 		color: black;
-	  }
-	  .mdc-radio__native-control {
-		color: black;
-  } 
+	}
+	.mat-mdc-radio-button.mat-accent {
+		--mdc-radio-disabled-selected-icon-color: black;
+		--mdc-radio-disabled-unselected-icon-color: black;
+		--mdc-radio-unselected-hover-icon-color: black;
+		--mdc-radio-unselected-icon-color: black;
+		--mdc-radio-unselected-pressed-icon-color: black;
+		--mdc-radio-selected-focus-icon-color: black;
+		--mdc-radio-selected-hover-icon-color: black;
+		--mdc-radio-selected-icon-color: black;
+		--mdc-radio-selected-pressed-icon-color: black;
+		--mat-radio-ripple-color: black;
+		--mat-radio-checked-ripple-color: black;
+		--mat-radio-disabled-label-color: black;
+	}
+    
   }
 
   .app-logo {
@@ -27,27 +39,9 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	
-	display: flex;
 	gap: 16px;
 
-	&__data {
-		display: flex;
-		align-items: flex-start;
-		gap: 16px;
-	}
 
-	&__title {
-		text-transform: uppercase;
-		font-size: 12px;
-	}
-
-	&__content {
-		font-weight: 500;
-		font-size: 24px;
-		margin-top: 4px;
-		text-align: center;
-	}
 
 	.remove-icon {
 		color: red;
@@ -61,11 +55,7 @@
 		width: 205px;
 	}
 
-	::ng-deep {
-		.mat-form-field-wrapper {
-			padding-bottom: 0;
-		}
-	}
+
 }
 
 .banqueiro-settings .aplicar-button {
@@ -77,5 +67,30 @@
 	background-color: rgb(33, 150, 243);
 	color: #fff;
 }
-  
-  
+.dynamic-elements-container {
+	margin-right: 10px;
+	display: flex;
+	align-items: center; /* Align children in the center vertically */
+  }
+
+  .seletor{
+	margin-top: 20px;
+  }
+  .dynamic-elements-row {
+	display: flex;
+	justify-content: center; /* Align children in the center horizontally */
+	background-color: rgb(227, 242, 253);
+	margin-top: -20px;
+
+	.remove-icon {
+		color: red;
+	}
+
+	.add-icon {
+		color: green;
+	}
+
+	.mat-form-field {
+		width: 205px;
+	}
+  }

@@ -3,14 +3,14 @@
 
 
 .app-logo {
-    margin: 0 auto;
-    text-align: center;
+    margin: 10px 25px;
 	color: #1f294c;
 	font-size: 20px;
 	line-height: normal;
 	font-weight: bold;
     font-family: monospace;
 }
+
 .filosofos-settings {
 	background-color: map_get($mat-blue, 50);
 	padding: 24px;
@@ -60,4 +60,19 @@
 .filosofos-settings .aplicar-button {
 	background-color: rgb(33, 150, 243);
 	color: #fff;
+	margin-bottom: 20px;
+	
   }
+
+  .filosofos-settings {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+ }
+ 
+ .form-container {
+	display: flex;
+	justify-content: space-around; 
+	align-items: center;
+	width: 100%;
+ }

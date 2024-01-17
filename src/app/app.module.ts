@@ -12,9 +12,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LogicApplicationPhilosophersComponent } from './components/quantity-selection/logic-application-philosophers/logic-application-philosophers.component';
-import { ResourceManagerComponent } from './resource-manager/resource-manager.component';
+import { ResourceManagerComponent } from './components/resource-manager/resource-manager.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import { CreateProcess1ModalComponent } from './components/resource-manager/create-process-1-modal/create-process-1-modal.component';
+import { CreateProcess2ModalComponent } from './components/resource-manager/create-process-2-modal/create-process-2-modal.component';
 
 
 
@@ -30,6 +33,8 @@ import { FormsModule } from '@angular/forms';
     QuantitySelectionComponent,
     LogicApplicationPhilosophersComponent,
     ResourceManagerComponent,
+    CreateProcess1ModalComponent,
+    CreateProcess2ModalComponent,
 
   ],
   imports: [
@@ -40,9 +45,11 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDialogModule,
     ReactiveFormsModule,
     MatRadioModule,
     FormsModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
