@@ -1,9 +1,9 @@
 <form class="filosofos-settings" [formGroup]="filosofosForm" (ngSubmit)="aplicarConfiguracoes()">
-  
 
   <div class="form-container">
-     <mat-form-field appearance="outline">
-        <mat-label style="color: rgb(103, 104, 106);">Quantidade de filosofos</mat-label>
+   <div class="app-logo">Jantar dos filósofos</div>
+     <mat-form-field appearance="outline" class="seletor">
+        <mat-label style="color: rgb(103, 104, 106);">Quantidade de filósofos</mat-label>
 
         <button matPrefix mat-icon-button type="button" (click)="decrementarQuantidade()">
            <mat-icon class="remove-icon">do_not_disturb_on</mat-icon>
@@ -15,9 +15,10 @@
            <mat-icon class="add-icon">add_circle</mat-icon>
         </button>
      </mat-form-field>
-
+     <div>
+     <button mat-raised-button >Pausar</button>
      <button mat-raised-button class="aplicar-button" (click)="aplicarConfiguracoes()">Aplicar</button>
+   </div>
   </div>
 </form>
-<div class="app-logo">Jantar dos filosofos</div>
 <app-logic-application-philosophers [quantidadeFilosofos]="quantidadeFilosofos"></app-logic-application-philosophers>

@@ -5,7 +5,8 @@
       </button>
       <div class="app-logo">Criar processo</div>
   </div>
-  <div>
+  <div *ngFor="let index of getQuantidadeDeRecusosArray()">
+    R{{ index + 1 }}
       <mat-form-field appearance="outline" style="text-align: center;">
           <mat-label style="color: rgb(103, 104, 106);">Créditos necessários</mat-label>
   

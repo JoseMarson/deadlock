@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -10,6 +10,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class CreateProcess2ModalComponent {
   modalForm: FormGroup;
 
+  @Input() quantidadeRecurso?: number = 2;
+
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<CreateProcess2ModalComponent>
@@ -20,6 +22,9 @@ export class CreateProcess2ModalComponent {
     });
   }
 
+  getQuantidadeDeRecusosArray(){
+    return Array(this.quantidadeRecurso).fill(0);
+  }
   fecharModal(): void {
     this.dialogRef.close();
   }

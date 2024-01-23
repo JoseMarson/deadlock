@@ -1,3 +1,18 @@
     <div id="mesa-img" *ngIf="quantidadeFilosofos !== undefined">
         <img [src]="imagemFilosofo" alt="" />
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Filósofo</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let filosofo of filosofos">
+                    <td>{{ filosofo.nome }}</td>
+                    <td>{{ filosofo.estado }}</td>
+                </tr>
+            </tbody>
+        </table>
      </div>

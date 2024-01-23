@@ -1,7 +1,23 @@
-#mesa-img{
+#mesa-img {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; 
+    align-items: flex-start;
+    justify-content: flex-end;
+    height: 100vh;
+    padding: 20px; 
 }
 
+table {
+    margin: 20px;
+    width: 40%;
+}
+
+th, td {
+    border: 1px solid black; 
+    padding: 8px;
+    text-align: center;
+}
+img{
+    padding: 100px 250px;
+    width: 25%; 
+    height: auto;
+}
