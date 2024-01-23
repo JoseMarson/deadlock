@@ -49,6 +49,7 @@ import { CreateProcess2ModalComponent } from './components/resource-manager/crea
     ReactiveFormsModule,
     MatRadioModule,
     FormsModule,
+    MatDialogModule,
     
   ],
   providers: [],

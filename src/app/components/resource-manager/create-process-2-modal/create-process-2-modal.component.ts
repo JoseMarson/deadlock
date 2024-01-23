@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-process-2-modal',
@@ -10,40 +10,74 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class CreateProcess2ModalComponent {
   modalForm: FormGroup;
 
-  @Input() quantidadeRecurso?: number = 2;
+  quantidadeRecurso: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<CreateProcess2ModalComponent>
+    public dialogRef: MatDialogRef<CreateProcess2ModalComponent>,
+    @Inject(MAT_DIALOG_DATA) data: any
+
   ) {
+    this.quantidadeRecurso = data.quantidadeRecurso;
     this.modalForm = this.formBuilder.group({
-      creditosNecessarios: [1],
-      creditoPorSolicitacao: [1],
+      creditosNecessariosArray: this.formBuilder.array([1]),
+      quantidadeCreditoArray: this.formBuilder.array([1]),
     });
   }
 
-  getQuantidadeDeRecusosArray(){
-    return Array(this.quantidadeRecurso).fill(0);
+  getQuantidadeDeRecusosArray() {
+    return Array.from({ length: this.quantidadeRecurso }, (_, index) => index );
   }
+
+  creditosNecessariosArray(x: number): number {
+    const creditosNecessariosArrayControl = this.modalForm.get('creditosNecessariosArray') as FormArray;
+  
+      const control = creditosNecessariosArrayControl.at(x) as FormControl;
+      return control.value;
+    
+  }
+  quantidadeCreditoArray(x: number): number{
+    const quantidadeCreditoArrayControl = this.modalForm.get('quantidadeCreditoArray') as FormArray;
+  
+      const control = quantidadeCreditoArrayControl.at(x) as FormControl;
+      return control.value;
+  }
+
   fecharModal(): void {
     this.dialogRef.close();
   }
 
-  decrementarQuantidade(x: number): void {
-    this.atualizarQuantidade(x, -1);
+  decrementarQuantidade(x: number,  index: number): void {
+    console.log('decrementarQuantidade - x:', x, 'index:', index);
+    this.atualizarQuantidade(x, -1, index);
   }
 
-  incrementarQuantidade(x: number): void {
-    this.atualizarQuantidade(x, 1);
+  incrementarQuantidade(x: number,  index: number): void {
+    console.log('incrementarQuantidade - x:', x, 'index:', index);
+    this.atualizarQuantidade(x, 1, index);
   }
 
-  private atualizarQuantidade(tipo: number, valor: number): void {
-    const campo = tipo === 1 ? 'creditosNecessarios' : 'creditoPorSolicitacao';
-    let quantidadeAtual = this.modalForm.value[campo] || 0;
+  private atualizarQuantidade(tipo: number, valor: number,  index: number): void {
+    const creditosNecessariosArrayControl = this.modalForm.get('creditosNecessariosArray') as FormArray;
+    const quantidadeCreditoArrayControl = this.modalForm.get('quantidadeCreditoArray') as FormArray;
 
-    if (quantidadeAtual + valor >= 1 && quantidadeAtual + valor <= 20) {
-      quantidadeAtual += valor;
-      this.modalForm.patchValue({ [campo]: quantidadeAtual });
+    if (index >= creditosNecessariosArrayControl.length) {
+      creditosNecessariosArrayControl.push(this.formBuilder.control(1));
+      quantidadeCreditoArrayControl.push(this.formBuilder.control(1));
+    }
+
+    const novoValor = this.creditosNecessariosArray(index) + valor;
+    const novoValor2 = this.quantidadeCreditoArray(index) + valor;
+      
+    if (tipo === 1 && this.creditosNecessariosArray(index) + valor >= 1 && this.creditosNecessariosArray(index) + valor <= 20) {
+      const control = creditosNecessariosArrayControl.at(index) as FormControl;
+      control.setValue(novoValor);
+      console.log('novo valor:', novoValor, 'index: ', index);
+    }
+    else if(tipo === 2 && this.quantidadeCreditoArray(index) + valor >= 1 && this.quantidadeCreditoArray(index) + valor <= 20){
+      const control = quantidadeCreditoArrayControl.at(index) as FormControl;
+      control.setValue(novoValor2);
+      console.log('novo valor2:', novoValor2, 'index: ', index);
     }
   }
 }

@@ -10,13 +10,13 @@
       <mat-form-field appearance="outline" style="text-align: center;">
           <mat-label style="color: rgb(103, 104, 106);">Créditos necessários</mat-label>
   
-          <button matPrefix mat-icon-button type="button" (click)="decrementarQuantidade(1)">
+          <button matPrefix mat-icon-button type="button" (click)="decrementarQuantidade(1, index)">
               <mat-icon class="remove-icon">do_not_disturb_on</mat-icon>
           </button>
   
-          <input matInput readonly formControlName="creditosNecessarios" style="color: black; text-align: center;" />
+          <input matInput readonly formControlName="creditosNecessariosArray" style="color: black; text-align: center;" />
   
-          <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade(1)">
+          <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade(1, index)">
               <mat-icon class="add-icon">add_circle</mat-icon>
           </button>
       </mat-form-field>
@@ -24,13 +24,13 @@
       <mat-form-field appearance="outline" style="text-align: center;">
           <mat-label style="color: rgb(103, 104, 106);">Quantidade de crédito por solicitação</mat-label>
   
-          <button matPrefix mat-icon-button type="button" (click)="decrementarQuantidade(2)">
+          <button matPrefix mat-icon-button type="button" (click)="decrementarQuantidade(2, index)">
               <mat-icon class="remove-icon">do_not_disturb_on</mat-icon>
           </button>
   
-          <input matInput readonly formControlName="creditoPorSolicitacao" style="color: black; text-align: center;" />
+          <input matInput readonly formControlName="quantidadeCreditoArray" style="color: black; text-align: center;" />
   
-          <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade(2)">
+          <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade(2, index)">
               <mat-icon class="add-icon">add_circle</mat-icon>
           </button>
       </mat-form-field>

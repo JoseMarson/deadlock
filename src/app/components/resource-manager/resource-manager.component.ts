@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,  FormControl, FormArray } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateProcess1ModalComponent } from './create-process-1-modal/create-process-1-modal.component';
@@ -15,7 +15,7 @@ export class ResourceManagerComponent {
   aplicarConfiguracoesEvent = new EventEmitter<number>();
   tipoRecurso: number = 0;
 
-  constructor(private formBuilder: FormBuilder, private modal: MatDialog ) {
+  constructor(private formBuilder: FormBuilder, private modal: MatDialog, private cdr: ChangeDetectorRef ) {
     this.bankerForm = this.formBuilder.group({
       creditosDoRecurso: [1], 
       CreditosRecursoArray: this.formBuilder.array([]),
@@ -68,10 +68,12 @@ export class ResourceManagerComponent {
     if (tipo === 1 && this.creditosDoRecursoValue && this.creditosDoRecursoValue <= 20 &&  valor+this.creditosDoRecursoValue >= 1 &&  valor+this.creditosDoRecursoValue <= 20) {
       let novoValor = this.creditosDoRecursoValue + valor;
       this.bankerForm.get('creditosDoRecurso')?.setValue(novoValor);
+      this.markFormAsDirty();
     }
     else if (tipo === 2 && this.quantidadeRecursoValue && (this.quantidadeRecursoValue >= 2 && this.quantidadeRecursoValue <= 4) &&  valor+this.quantidadeRecursoValue >= 2 &&  valor+this.quantidadeRecursoValue <= 4) {
       let novoValor = this.quantidadeRecursoValue + valor;
       this.bankerForm.get('quantidadeRecurso')?.setValue(novoValor);
+      this.markFormAsDirty();
     }
     else if (tipo === 3 && index !== undefined && this.creditosDoRecursoValueArray(index) && (this.creditosDoRecursoValueArray(index) >= 1 && this.creditosDoRecursoValueArray(index) <= 20)  &&  valor+this.creditosDoRecursoValueArray(index) >= 1 &&  valor+this.creditosDoRecursoValueArray(index) <= 20) {
       const novoValor = this.creditosDoRecursoValueArray(index) + valor;
@@ -81,19 +83,23 @@ export class ResourceManagerComponent {
         const control = creditosRecursoArrayControl.at(index) as FormControl;
         control.setValue(novoValor);
         console.log('Array após a atualização:', creditosRecursoArrayControl.value);
+        this.markFormAsDirty();
       
       }
     }
   }
    
-  
+  private markFormAsDirty(): void {
+    this.cdr.detectChanges();
+  }
 
   openModal() {
     if (this.bankerForm.get('selectedOption')?.value == '1') {
       this.modal.open(CreateProcess1ModalComponent,)
     } else if (this.bankerForm.get('selectedOption')?.value == '2') {
-      this.aplicarConfiguracoesEvent.emit(this.bankerForm.get('quantidadeRecurso')?.value);
-      this.modal.open(CreateProcess2ModalComponent, )
+      this.modal.open(CreateProcess2ModalComponent, {
+        data: { quantidadeRecurso: this.bankerForm.get('quantidadeRecurso')?.value }
+      });
     } else {
       console.log('está nulo');
       
