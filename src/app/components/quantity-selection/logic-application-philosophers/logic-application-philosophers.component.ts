@@ -7,7 +7,7 @@ import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@
 })
 export class LogicApplicationPhilosophersComponent implements OnChanges {
   @Input() quantidadeFilosofos?: number = 3;
-  imagemFilosofo: string = '../../../assets/images/mesa3.png';
+  imagemFilosofo: string = './assets/images/mesa3.png';
   filosofos: any[] = [];
 
   constructor(private cdr: ChangeDetectorRef) {}
@@ -23,7 +23,7 @@ export class LogicApplicationPhilosophersComponent implements OnChanges {
 
   private atualizarImagemFilosofo(): void {
     if (this.quantidadeFilosofos && this.quantidadeFilosofos >= 3 && this.quantidadeFilosofos <= 7) {
-      this.imagemFilosofo = `../../../assets/images/mesa${this.quantidadeFilosofos}.png`;
+      this.imagemFilosofo = `./assets/images/mesa${this.quantidadeFilosofos}.png`;
     }
   }
 

@@ -45,5 +45,10 @@ mat-form-field {
 }
 
 .close-icon {
-    color: #000; /* Adapte a cor conforme necessário */
+    color: #000; 
 }
+
+  .inline-container {
+	display: flex;
+	align-items: center;
+  }
