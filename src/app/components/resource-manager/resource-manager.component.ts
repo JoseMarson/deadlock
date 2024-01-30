@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,  FormControl, FormArray } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateProcess1ModalComponent } from './create-process-1-modal/create-process-1-modal.component';
 import { CreateProcess2ModalComponent } from './create-process-2-modal/create-process-2-modal.component';
 
 
@@ -14,12 +13,13 @@ export class ResourceManagerComponent {
   bankerForm!: FormGroup;
   aplicarConfiguracoesEvent = new EventEmitter<number>();
   tipoRecurso: number = 0;
+  processoCriado: boolean = false;
+  modoReset: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private modal: MatDialog, private cdr: ChangeDetectorRef ) {
-    this.bankerForm = this.formBuilder.group({
-      creditosDoRecurso: [1], 
-      CreditosRecursoArray: this.formBuilder.array([]),
-      quantidadeRecurso: [2],
+    this.bankerForm = this.formBuilder.group({ 
+      creditosRecursoArray: this.formBuilder.array([]),
+      quantidadeRecurso: [1],
       selectedOption: [''],
     });
     this.bankerForm.get('quantidadeRecurso')?.valueChanges.subscribe((newValue) => {
@@ -29,7 +29,7 @@ export class ResourceManagerComponent {
   }
 
   atualizarCreditosRecursoArray(novaQuantidade: number): void {
-    const creditosRecursoArrayControl = this.bankerForm.get('CreditosRecursoArray') as FormArray;
+    const creditosRecursoArrayControl = this.bankerForm.get('creditosRecursoArray') as FormArray;
     console.log('Antes da atualização:', creditosRecursoArrayControl.value);
 
 
@@ -39,11 +39,9 @@ export class ResourceManagerComponent {
       creditosRecursoArrayControl.push(this.formBuilder.control(1));
     }
   }
-  get creditosDoRecursoValue(): number | undefined {
-    return this.bankerForm.get('creditosDoRecurso')?.value;
-  }
+ 
   creditosDoRecursoValueArray(x: number): number {
-    const creditosRecursoArrayControl = this.bankerForm.get('CreditosRecursoArray') as FormArray;
+    const creditosRecursoArrayControl = this.bankerForm.get('creditosRecursoArray') as FormArray;
   
       const control = creditosRecursoArrayControl.at(x) as FormControl;
       return control.value;
@@ -54,38 +52,26 @@ export class ResourceManagerComponent {
   }  
   
 
-  decrementarQuantidade(x: number, index?: number): void {
-    if( x === 3 ) this.atualizarQuantidade(x, -1, index);
-    else this.atualizarQuantidade(x, -1);
+  decrementarQuantidade(index?: number): void {
+    if(index != null) this.atualizarQuantidade(-1, index);
+    else this.atualizarQuantidade(-1);
+    
   }
 
-  incrementarQuantidade(x: number, index?: number): void {
-    if( x === 3 ) this.atualizarQuantidade(x, 1, index);
-    this.atualizarQuantidade(x, 1);
+  incrementarQuantidade(index?: number): void {
+    if(index != null) this.atualizarQuantidade(1, index);
+    else this.atualizarQuantidade(1);
   }
 
-  private atualizarQuantidade(tipo: number, valor: number, index?: number): void {
-    if (tipo === 1 && this.creditosDoRecursoValue && this.creditosDoRecursoValue <= 20 &&  valor+this.creditosDoRecursoValue >= 1 &&  valor+this.creditosDoRecursoValue <= 20) {
-      let novoValor = this.creditosDoRecursoValue + valor;
-      this.bankerForm.get('creditosDoRecurso')?.setValue(novoValor);
-      this.markFormAsDirty();
-    }
-    else if (tipo === 2 && this.quantidadeRecursoValue && (this.quantidadeRecursoValue >= 2 && this.quantidadeRecursoValue <= 4) &&  valor+this.quantidadeRecursoValue >= 2 &&  valor+this.quantidadeRecursoValue <= 4) {
+  private atualizarQuantidade(valor: number, index?: number): void {
+    if (index == null && this.quantidadeRecursoValue && (this.quantidadeRecursoValue >= 1 && this.quantidadeRecursoValue <= 4) &&  valor+this.quantidadeRecursoValue >= 1 &&  valor+this.quantidadeRecursoValue <= 4) {
       let novoValor = this.quantidadeRecursoValue + valor;
       this.bankerForm.get('quantidadeRecurso')?.setValue(novoValor);
       this.markFormAsDirty();
     }
-    else if (tipo === 3 && index !== undefined && this.creditosDoRecursoValueArray(index) && (this.creditosDoRecursoValueArray(index) >= 1 && this.creditosDoRecursoValueArray(index) <= 20)  &&  valor+this.creditosDoRecursoValueArray(index) >= 1 &&  valor+this.creditosDoRecursoValueArray(index) <= 20) {
-      const novoValor = this.creditosDoRecursoValueArray(index) + valor;
-      const creditosRecursoArrayControl = this.bankerForm.get('CreditosRecursoArray') as FormArray;
-
-      if (creditosRecursoArrayControl && index >= 0 && index < creditosRecursoArrayControl.length) {
-        const control = creditosRecursoArrayControl.at(index) as FormControl;
-        control.setValue(novoValor);
-        console.log('Array após a atualização:', creditosRecursoArrayControl.value);
-        this.markFormAsDirty();
-      
-      }
+    else if(index != null && this.creditosDoRecursoValueArray(index) && (this.creditosDoRecursoValueArray(index)>= 1 && this.creditosDoRecursoValueArray(index) <= 20) &&  valor+this.creditosDoRecursoValueArray(index) >= 1 &&  valor+this.creditosDoRecursoValueArray(index) <= 20){
+      let novoValor = this.creditosDoRecursoValueArray(index) + valor;
+      this.getCreditControl(index).setValue(novoValor);
     }
   }
    
@@ -94,16 +80,8 @@ export class ResourceManagerComponent {
   }
 
   openModal() {
-    if (this.bankerForm.get('selectedOption')?.value == '1') {
-      this.modal.open(CreateProcess1ModalComponent,)
-    } else if (this.bankerForm.get('selectedOption')?.value == '2') {
-      this.modal.open(CreateProcess2ModalComponent, {
-        data: { quantidadeRecurso: this.bankerForm.get('quantidadeRecurso')?.value }
-      });
-    } else {
-      console.log('está nulo');
-      
-    }
+      this.modal.open(CreateProcess2ModalComponent);
+      this.processoCriado = true;
   }
 
   getQuantityRange() {
@@ -111,12 +89,16 @@ export class ResourceManagerComponent {
   }
 
   getCreditControl(index: number): FormControl {
-    const creditosRecursoArrayControl = this.bankerForm.get('CreditosRecursoArray') as FormArray;
+    const creditosRecursoArrayControl = this.bankerForm.get('creditosRecursoArray') as FormArray;
   
     if (creditosRecursoArrayControl && index >= 0 && index < creditosRecursoArrayControl.length) {
       return creditosRecursoArrayControl.at(index) as FormControl;
     }
   
     return new FormControl();
+  }
+
+  aplicarConfiguracoes(): void {
+    this.modoReset = !this.modoReset;
   }
 }

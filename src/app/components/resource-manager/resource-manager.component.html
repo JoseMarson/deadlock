@@ -1,51 +1,39 @@
 <form class="banqueiro-settings" [formGroup]="bankerForm">
     <div class="app-logo">Algoritmo do Banqueiro</div>
-    <mat-radio-group aria-label="Select an option" formControlName="selectedOption">
-      <mat-radio-button value="1">Único Recurso</mat-radio-button>
-      <mat-radio-button value="2">Múltiplos Recursos</mat-radio-button>
-    </mat-radio-group>
-    <div *ngIf="bankerForm && bankerForm.get('selectedOption')?.value === '1'" class="seletor">
-      <mat-form-field appearance="outline" style="text-align: center;">
-        <mat-label style="color: rgb(103, 104, 106);">Quantidade de crédito do recurso</mat-label>
-        <button matPrefix mat-icon-button type="button" (click)="decrementarQuantidade(1)">
-          <mat-icon class="remove-icon">do_not_disturb_on</mat-icon>
-        </button>
-        <input matInput readonly formControlName="creditosDoRecurso" style="color: black; text-align: center;" />
-        <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade(1)">
-          <mat-icon class="add-icon">add_circle</mat-icon>
-        </button>
-      </mat-form-field>
-    </div>
-    <div *ngIf="bankerForm && bankerForm.get('selectedOption')?.value === '2'" class="seletor">
+
+    <div class="seletor">
       <mat-form-field appearance="outline" style="text-align: center;">
         <mat-label style="color: rgb(103, 104, 106);">Quantidade de recursos</mat-label>
-        <button matPrefix mat-icon-button type="button" (click)="decrementarQuantidade(2)">
-          <mat-icon class="remove-icon">do_not_disturb_on</mat-icon>
+        <button matPrefix mat-icon-button type="button" (click)="decrementarQuantidade()">
+          <mat-icon class="remove-icon"  *ngIf="!processoCriado">do_not_disturb_on</mat-icon>
         </button>
         <input matInput readonly formControlName="quantidadeRecurso" style="color: black; text-align: center;" />
-        <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade(2)">
-          <mat-icon class="add-icon">add_circle</mat-icon>
+        <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade()">
+          <mat-icon class="add-icon" *ngIf="!processoCriado">add_circle</mat-icon>
         </button>
       </mat-form-field>
     </div>
   
     
   
-    <button mat-raised-button class="abrir-modal" (click)="openModal()" [disabled]="bankerForm.get('selectedOption')?.value == ''" type="button">Criar processo</button>
-    <button mat-raised-button class="aplicar-button" type="button">Aplicar</button>
+    <button mat-raised-button class="abrir-modal" (click)="openModal()"  type="button">Criar processo</button>
+    <button mat-raised-button class="aplicar-button" type="button" (click)="aplicarConfiguracoes()">
+      {{ modoReset ? 'Reset' : 'Aplicar' }}
+    </button>
+    
 
   </form>
-  <div *ngIf="bankerForm && bankerForm.get('selectedOption')?.value === '2'" class="dynamic-elements-row">
+  <div class="dynamic-elements-row">
     <div *ngFor="let index of getQuantityRange()" class="dynamic-elements-container">
       <div>
         <mat-form-field appearance="outline" style="text-align: center; display: inline-block; margin-right: 10px;">
           <mat-label style="color: rgb(103, 104, 106);">Crédito do recurso {{ index + 1 }}</mat-label>
-          <button matPrefix mat-icon-button type="button" (click)="decrementarQuantidade(3, index)">
-            <mat-icon class="remove-icon">do_not_disturb_on</mat-icon>
+          <button matPrefix mat-icon-button type="button" (click)="decrementarQuantidade(index)" [disabled]="processoCriado">
+            <mat-icon class="remove-icon" *ngIf="!processoCriado">do_not_disturb_on</mat-icon>
           </button>
           <input matInput readonly [formControl]="getCreditControl(index)" style="color: black; text-align: center;" />
-          <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade(3, index)">
-            <mat-icon class="add-icon">add_circle</mat-icon>
+          <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade(index)" [disabled]="processoCriado">
+            <mat-icon class="add-icon" *ngIf="!processoCriado">add_circle</mat-icon>
           </button>
         </mat-form-field>
       </div>

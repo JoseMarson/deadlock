@@ -16,7 +16,6 @@ import { ResourceManagerComponent } from './components/resource-manager/resource
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
-import { CreateProcess1ModalComponent } from './components/resource-manager/create-process-1-modal/create-process-1-modal.component';
 import { CreateProcess2ModalComponent } from './components/resource-manager/create-process-2-modal/create-process-2-modal.component';
 
 
@@ -33,7 +32,6 @@ import { CreateProcess2ModalComponent } from './components/resource-manager/crea
     QuantitySelectionComponent,
     LogicApplicationPhilosophersComponent,
     ResourceManagerComponent,
-    CreateProcess1ModalComponent,
     CreateProcess2ModalComponent,
 
   ],
