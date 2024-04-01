@@ -4,11 +4,11 @@
     <div class="seletor">
       <mat-form-field appearance="outline" style="text-align: center;">
         <mat-label style="color: rgb(103, 104, 106);">Quantidade de recursos</mat-label>
-        <button matPrefix mat-icon-button type="button" (click)="decrementarQuantidade()">
+        <button matPrefix mat-icon-button type="button" (click)="decrementarQuantidade()" [disabled]="processoCriado">
           <mat-icon class="remove-icon"  *ngIf="!processoCriado">do_not_disturb_on</mat-icon>
         </button>
         <input matInput readonly formControlName="quantidadeRecurso" style="color: black; text-align: center;" />
-        <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade()">
+        <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade()" [disabled]="processoCriado">
           <mat-icon class="add-icon" *ngIf="!processoCriado">add_circle</mat-icon>
         </button>
       </mat-form-field>
