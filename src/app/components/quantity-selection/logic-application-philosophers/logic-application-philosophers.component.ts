@@ -14,14 +14,16 @@ export class LogicApplicationPhilosophersComponent implements OnChanges {
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['quantidadeFilosofos'] && this.quantidadeFilosofos !== undefined) {
-      console.log('Valor atualizado:', this.quantidadeFilosofos);
+    const quantidadeFilosofos = this.quantidadeFilosofos ?? 0; 
+    if (changes['quantidadeFilosofos'] && quantidadeFilosofos !== undefined) {
+      console.log('Valor atualizado:', quantidadeFilosofos);
       this.atualizarImagemFilosofo();
       this.inicializarFilosofos();
       this.iniciarTemporizador();
       this.cdr.detectChanges();
     }
   }
+  
 
   private atualizarImagemFilosofo(): void {
     if (this.quantidadeFilosofos && this.quantidadeFilosofos >= 3 && this.quantidadeFilosofos <= 7) {
@@ -31,15 +33,26 @@ export class LogicApplicationPhilosophersComponent implements OnChanges {
 
   private inicializarFilosofos(): void {
     this.filosofos = [];
-    const randomIndex = Math.floor(Math.random() * (this.quantidadeFilosofos || 0));
-    for (let i = 1; i <= (this.quantidadeFilosofos || 0); i++) {
-      const estadoInicial = i === randomIndex ? 'Comendo' : 'Pensando';
-      this.filosofos.push({
-        nome: `Filósofo ${i}`,
-        estado: estadoInicial
-      });
+    const garfosDisponiveis = new Array(this.quantidadeFilosofos || 0).fill(true);
+  
+    for (let i = 0; i < (this.quantidadeFilosofos || 0); i++) {
+      if (!(garfosDisponiveis[i] && garfosDisponiveis[(i + 1) % (this.quantidadeFilosofos || 0)])) {
+        this.filosofos.push({
+          nome: `Filósofo ${i + 1}`,
+          estado: 'Aguardando'
+        });
+      } else {
+        this.filosofos.push({
+          nome: `Filósofo ${i + 1}`,
+          estado: 'Comendo'
+        });
+        garfosDisponiveis[i] = false;
+        garfosDisponiveis[(i + 1) % (this.quantidadeFilosofos || 0)] = false;
+      }
     }
   }
+  
+  
 
   private iniciarTemporizador(): void {
     this.execucaoAtiva = true; 
@@ -48,7 +61,7 @@ export class LogicApplicationPhilosophersComponent implements OnChanges {
         this.resetarEAlterarEstados();
         this.cdr.detectChanges();
       }
-    }, 10000);
+    }, 7000); 
   }
 
   pausarExecucao(): void {
@@ -60,28 +73,32 @@ export class LogicApplicationPhilosophersComponent implements OnChanges {
   }
 
   private resetarEAlterarEstados(): void {
-
     const garfosDisponiveis = new Array(this.quantidadeFilosofos || 0).fill(true);
-
-
+  
     this.filosofos.forEach((filosofo, index) => {
-
       const garfoEsquerdaDisponivel = garfosDisponiveis[index];
       const garfoDireitaDisponivel = garfosDisponiveis[(index + 1) % (this.quantidadeFilosofos || 0)];
-
-      if (filosofo.estado === 'Comendo') {
-        garfosDisponiveis[index] = true;
-        garfosDisponiveis[(index + 1) % (this.quantidadeFilosofos || 0)] = true;
+      const garfoEsquerdaIndex = index;
+      const garfoDireitaIndex = (index + 1) % (this.quantidadeFilosofos || 0);
+  
+      if (filosofo.estado === 'Comendo' && garfoEsquerdaDisponivel && garfoDireitaDisponivel) {
+        garfosDisponiveis[garfoEsquerdaIndex] = true;
+        garfosDisponiveis[garfoDireitaIndex] = true;
         filosofo.estado = 'Pensando';
       } else {
-        if (garfoEsquerdaDisponivel && garfoDireitaDisponivel) {
+        if (filosofo.estado === 'Aguardando' && garfoEsquerdaDisponivel && garfoDireitaDisponivel) {
           filosofo.estado = 'Comendo';
-          garfosDisponiveis[index] = false;
-          garfosDisponiveis[(index + 1) % (this.quantidadeFilosofos || 0)] = false;
+          garfosDisponiveis[garfoEsquerdaIndex] = false;
+          garfosDisponiveis[garfoDireitaIndex] = false;
         } else {
-          filosofo.estado = 'Aguardando';
+          if (!garfoEsquerdaDisponivel && !garfoDireitaDisponivel) {
+            filosofo.estado = 'Pensando';
+          } else {
+            filosofo.estado = 'Aguardando';
+          }
         }
       }
     });
   }
+  
 }

@@ -1,40 +1,36 @@
-<form class="modal-settings" [formGroup]="modalForm" >
+<form class="modal-settings" [formGroup]="modalForm">
   <div>
-      <button mat-icon-button type="button" class="close-icon-button" (click)="fecharModal()">
-          <mat-icon class="close-icon">close</mat-icon>
-      </button>
+    <button mat-icon-button type="button" class="close-icon-button" (click)="fecharModal()">
+      <mat-icon class="close-icon">close</mat-icon>
+    </button>
   </div>
   <div style="display: flex; justify-content: space-between">
     <h1 mat-dialog-title>Criação de processo</h1>
-
-    <h3 style="text-decoration: underline; margin-top: 20px;">
-        Máx Processos Permitido: <b>{{ maxProcesses }}</b>
-    </h3>
-</div>
+    <h3 style="text-decoration: underline; margin-top: 20px;">Máx Processos Permitido: <b>{{ maxProcesses }}</b></h3>
+  </div>
   <div>
-  <mat-form-field appearance="outline" style="text-align: center;">
-    <mat-label style="color: rgb(103, 104, 106);">Quantidade de processos:</mat-label>
-    <input matInput type="number" formControlName="number" min="1" [max]="this.maxProcesses" style="text-align: center;"/>
-   
-</mat-form-field>
-</div>
-<div>
-  <div *ngFor="let recurso of recursos">
-    <div class="inline-container">
-      <mat-checkbox formControlName="{{ recurso.controlName }}">{{ recurso.label }}</mat-checkbox>
-      <div *ngIf="modalForm.get(recurso.controlName)?.value"> 
-        <mat-form-field appearance="outline" class="seletor">
-          <mat-label style="color: rgb(103, 104, 106);">Créditos necessários:</mat-label>
-          <input matInput type="number" formControlName="{{ recurso.creditosFormControl }}Array"  min="1" [max]="this.maxProcesses" style="text-align: center;" />
-        </mat-form-field> 
-        <mat-form-field appearance="outline" class="seletor">
-          <mat-label style="color: rgb(103, 104, 106);">Crédito por solicitação:</mat-label>
-          <input matInput type="number" formControlName="{{ recurso.creditosFormControl }}Array" min="1"  [max]="this.maxProcesses" style="text-align: center;" />
-        </mat-form-field>
+    <mat-form-field appearance="outline" style="text-align: center;">
+      <mat-label style="color: rgb(103, 104, 106);">Quantidade de processos:</mat-label>
+      <input matInput type="number" formControlName="quantidadeProcessos" min="1" [max]="maxProcesses" style="text-align: center;"/>
+    </mat-form-field>
+  </div>
+  <div>
+    <div *ngFor="let recurso of recursos">
+      <div class="inline-container">
+        <mat-checkbox (change)="toggleCreditControls(recurso.controlName)" formControlName="{{ recurso.controlName }}">{{ recurso.label }}</mat-checkbox>
+        <div *ngIf="modalForm.get(recurso.controlName)?.value"> 
+          <mat-form-field appearance="outline" class="seletor">
+            <mat-label style="color: rgb(103, 104, 106);">Créditos necessários:</mat-label>
+            <input matInput type="number" formControlName="{{ recurso.creditosNecessariosFormControl }}Array" min="1" [max]="maxProcesses" style="text-align: center;" />
+          </mat-form-field> 
+          <mat-form-field appearance="outline" class="seletor">
+            <mat-label style="color: rgb(103, 104, 106);">Crédito por solicitação:</mat-label>
+            <input matInput type="number" formControlName="{{ recurso.creditosPorSolicitacaoFormControl }}Array" min="1" [max]="maxProcesses" style="text-align: center;" />
+          </mat-form-field>
+        </div>
       </div>
     </div>
   </div>
-</div>
   <button mat-raised-button class="cancelar-button" type="button" (click)="fecharModal()">Cancelar</button>
   <button mat-raised-button class="aplicar-button" type="button">Aplicar</button>
 </form>
