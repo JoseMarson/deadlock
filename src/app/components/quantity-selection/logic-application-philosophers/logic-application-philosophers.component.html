@@ -1,18 +1,21 @@
-    <div id="mesa-img" *ngIf="quantidadeFilosofos !== undefined">
-        <img [src]="imagemFilosofo" alt="" />
+<div id="mesa-img" *ngIf="quantidadeFilosofos !== undefined">
+    <img class="mesa" [src]="imagemFilosofo" alt="Mesa" />
+    <div *ngFor="let filosofo of filosofos; let i = index" class="position" [ngStyle]="getStyle(i)">
+        <img [src]="getFilosofoImage(filosofo.estado)" alt="Filósofo" />
+    </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Filósofo</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let filosofo of filosofos">
-                    <td>{{ filosofo.nome }}</td>
-                    <td>{{ filosofo.estado }}</td>
-                </tr>
-            </tbody>
-        </table>
-     </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Filósofo</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let filosofo of filosofos">
+                <td>{{ filosofo.nome }}</td>
+                <td>{{ filosofo.estado }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

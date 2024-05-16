@@ -1,4 +1,4 @@
-import { Component, OnInit,Output, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class QuantitySelectionComponent implements OnInit {
   filosofosForm!: FormGroup;
-  aplicarConfiguracoesEvent = new EventEmitter<number>();
+  @Output() aplicarConfiguracoesEvent = new EventEmitter<number>();
   quantidadeFilosofos?: number;
 
   constructor(private fb: FormBuilder) {}
@@ -18,6 +18,7 @@ export class QuantitySelectionComponent implements OnInit {
       quantidadeFilosofos: [3, [Validators.min(3), Validators.max(7)]],
     });
   }
+
   decrementarQuantidade() {
     let quantidadeAtual = this.filosofosForm.value.quantidadeFilosofos;
     if (quantidadeAtual > 3) {
@@ -33,10 +34,14 @@ export class QuantitySelectionComponent implements OnInit {
       this.filosofosForm.patchValue({ quantidadeFilosofos: quantidadeAtual });
     }
   }
+
   aplicarConfiguracoes() {
     this.quantidadeFilosofos = this.filosofosForm.value.quantidadeFilosofos;
     this.aplicarConfiguracoesEvent.emit(this.quantidadeFilosofos);
     console.log(this.quantidadeFilosofos);
-    
+  }
+
+  pausarConfiguracoes(){
+    this.aplicarConfiguracoesEvent.emit(0);
   }
 }

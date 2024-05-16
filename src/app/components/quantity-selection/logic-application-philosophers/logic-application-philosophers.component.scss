@@ -1,23 +1,44 @@
 #mesa-img {
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     height: 100vh;
-    padding: 20px; 
+    padding: 20px;
+    position: relative;
 }
 
 table {
     margin: 20px;
     width: 40%;
+    position: absolute;
+    left: 57%;
+    top: 5%;
 }
 
 th, td {
-    border: 1px solid black; 
+    border: 1px solid black;
     padding: 8px;
     text-align: center;
 }
-img{
-    padding: 100px 250px;
-    width: 25%; 
+
+img {
+    width: 100px;
     height: auto;
+}
+.mesa{
+    width: 210px;
+    position: absolute;
+    left:20%;
+    top: 20%;
+
+}
+
+.position {
+    width: 100px; 
+    height: auto;
+    position: absolute;
+    left:24%;
+    top: 30%;
+
 }
