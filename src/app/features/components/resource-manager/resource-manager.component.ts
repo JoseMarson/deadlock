@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,  FormControl, FormArray } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateProcess2ModalComponent } from './create-process-2-modal/create-process-2-modal.component';
+import { CreateProcess2ModalComponent } from '../create-process-2-modal/create-process-2-modal.component';
 
 
 @Component({
