@@ -8,16 +8,34 @@
     <h1 mat-dialog-title>Criação de processo</h1>
     <h3 style="text-decoration: underline; margin-top: 20px;">Máx Processos Permitido: <b>{{ maxProcesses }}</b></h3>
   </div>
-  <div>
+  <!-- <div class="qtdProcess">
     <mat-form-field appearance="outline" style="text-align: center;">
       <mat-label style="color: rgb(103, 104, 106);">Quantidade de processos:</mat-label>
       <input matInput type="number" formControlName="quantidadeProcessos" min="1" [max]="maxProcesses" style="text-align: center;"/>
     </mat-form-field>
+  </div> -->
+
+
+  <div class="seletor qtdProcess">
+    <mat-form-field appearance="outline" style="text-align: center;">
+      <mat-label style="color: rgb(103, 104, 106);">Quantidade de processos:</mat-label>
+      <button matPrefix mat-icon-button type="button"   (click)="decrementarQuantidade()">
+        <mat-icon class="remove-icon" >do_not_disturb_on</mat-icon>
+      </button>
+      <input matInput readonly formControlName="quantidadeProcessos"   min="1" [max]="maxProcesses" style="color: black; text-align: center;" />
+      <button matSuffix mat-icon-button type="button" (click)="incrementarQuantidade()">
+        <mat-icon class="add-icon" >add_circle</mat-icon>
+      </button>
+    </mat-form-field>
   </div>
+
+
   <div>
-    <div *ngFor="let recurso of recursos">
+    <div *ngFor="let recurso of recursos | slice:0:quantidadeRecurso">
       <div class="inline-container">
-        <mat-checkbox (change)="toggleCreditControls(recurso.controlName)" formControlName="{{ recurso.controlName }}">{{ recurso.label }}</mat-checkbox>
+        <mat-checkbox (change)="toggleCreditControls(recurso.controlName)" formControlName="{{ recurso.controlName }}">
+          {{ recurso.label }}
+        </mat-checkbox>
         <div *ngIf="modalForm.get(recurso.controlName)?.value"> 
           <mat-form-field appearance="outline" class="seletor">
             <mat-label style="color: rgb(103, 104, 106);">Créditos necessários:</mat-label>
@@ -29,8 +47,8 @@
           </mat-form-field>
         </div>
       </div>
-    </div>
+    </div>    
   </div>
   <button mat-raised-button class="cancelar-button" type="button" (click)="fecharModal()">Cancelar</button>
-  <button mat-raised-button class="aplicar-button" type="button">Aplicar</button>
+  <button mat-raised-button class="aplicar-button" type="button" (click)="confirmData()">Aplicar</button>
 </form>

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormArray } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Validators } from '@angular/forms';
+import { BankerService } from 'src/app/shared/services/banker.service';
 
 
 interface Recurso {
@@ -18,8 +19,10 @@ interface Recurso {
 })
 export class CreateProcess2ModalComponent implements OnInit {
   modalForm!: FormGroup;
+ quantidadeRecurso: number = 0 ;
+ quantidadeProcessosAtual = this.bankerService.processQuantity.value;
 
-  maxProcesses = 15;
+  maxProcesses = 15 - this.quantidadeProcessosAtual;
   recursos: Recurso[] = [
     { controlName: 'recurso1', label: 'Recurso 1', creditosNecessariosFormControl: 'creditosNecessarios1', creditosPorSolicitacaoFormControl: 'creditosPorSolicitacao1' },
     { controlName: 'recurso2', label: 'Recurso 2', creditosNecessariosFormControl: 'creditosNecessarios2', creditosPorSolicitacaoFormControl: 'creditosPorSolicitacao2' },
@@ -29,14 +32,22 @@ export class CreateProcess2ModalComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<CreateProcess2ModalComponent>
-  ) {}
+    public dialogRef: MatDialogRef<CreateProcess2ModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private bankerService: BankerService,
+  ) {
+    if (data && data.quantidadeRecurso) {
+      this.quantidadeRecurso = data.quantidadeRecurso;
+    }
+  }
 
   ngOnInit(): void {
+    console.log( this.quantidadeRecurso)
+    this.bankerService.currentProcess$.subscribe();
+    this.modalForm?.get('quantidadeProcessos')?.value || 0;
     this.modalForm = this.formBuilder.group({
-      quantidadeProcessos: new FormControl('', Validators.required),
+      quantidadeProcessos: new FormControl(this.quantidadeProcessosAtual, Validators.required),
     });
-
     this.recursos.forEach(recurso => {
       this.modalForm.addControl(recurso.controlName, new FormControl(false));
     });
@@ -74,7 +85,24 @@ export class CreateProcess2ModalComponent implements OnInit {
     }
   }
 
+  decrementarQuantidade(){
+    this.quantidadeProcessosAtual--;
+    this.modalForm?.get('quantidadeProcessos')?.setValue(this.quantidadeProcessosAtual);
+    this.bankerService.setTotalProcessQuantity(this.quantidadeProcessosAtual);
+  }
+  incrementarQuantidade(){
+    this.quantidadeProcessosAtual++;
+    this.modalForm?.get('quantidadeProcessos')?.setValue(this.quantidadeProcessosAtual);
+    this.bankerService.setTotalProcessQuantity(this.quantidadeProcessosAtual);
+  }
+  
+  confirmData(){
+    this.bankerService.updateProcessStatus(true);
+    this.dialogRef.close();
+  }
+
   fecharModal(): void {
     this.dialogRef.close();
+    this.bankerService.updateProcessStatus(false);
   }
 }

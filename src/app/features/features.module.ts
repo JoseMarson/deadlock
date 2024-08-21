@@ -14,7 +14,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
-
+import { ActiveProcessesTableComponent } from './components/banqueiro/active-processes-table/active-processes-table.component';
+import { TableOfInactiveProcessesComponent } from './components/banqueiro/table-of-inactive-processes/table-of-inactive-processes.component';
+import { MatTableModule } from '@angular/material/table';
+import { RecurseControllerComponent } from './components/banqueiro/recurse-controller/recurse-controller.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,9 @@ import { MatButtonModule } from '@angular/material/button';
     LogicApplicationPhilosophersComponent,
     ResourceManagerComponent,
     CreateProcess2ModalComponent,
+    ActiveProcessesTableComponent,
+    TableOfInactiveProcessesComponent,
+    RecurseControllerComponent,
   ],
   imports: [
     CommonModule,
@@ -36,7 +42,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatCheckboxModule,
     FormsModule,
     BrowserAnimationsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTableModule,
+
   ],
   exports: [
     QuantitySelectionComponent,
