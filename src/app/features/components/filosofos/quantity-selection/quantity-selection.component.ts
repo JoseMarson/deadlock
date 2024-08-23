@@ -38,7 +38,6 @@ export class QuantitySelectionComponent implements OnInit {
   aplicarConfiguracoes() {
     this.quantidadeFilosofos = this.filosofosForm.value.quantidadeFilosofos;
     this.aplicarConfiguracoesEvent.emit(this.quantidadeFilosofos);
-    console.log(this.quantidadeFilosofos);
   }
 
   pausarConfiguracoes(){

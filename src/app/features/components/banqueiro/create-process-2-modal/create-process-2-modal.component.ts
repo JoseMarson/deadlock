@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, FormArray } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Validators } from '@angular/forms';
 import { BankerService } from 'src/app/shared/services/banker.service';
+import { Process } from 'src/app/shared/interface/processInterface';
 
 
 interface Recurso {
@@ -21,6 +22,7 @@ export class CreateProcess2ModalComponent implements OnInit {
   modalForm!: FormGroup;
  quantidadeRecurso: number = 0 ;
  quantidadeProcessosAtual = this.bankerService.processQuantity.value;
+ processes:Process [] = [];
 
   maxProcesses = 15 - this.quantidadeProcessosAtual;
   recursos: Recurso[] = [
@@ -42,7 +44,6 @@ export class CreateProcess2ModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log( this.quantidadeRecurso)
     this.bankerService.currentProcess$.subscribe();
     this.modalForm?.get('quantidadeProcessos')?.value || 0;
     this.modalForm = this.formBuilder.group({
@@ -57,33 +58,38 @@ export class CreateProcess2ModalComponent implements OnInit {
 
   generateCreditControls(): void {
     this.recursos.forEach(recurso => {
-      if (this.modalForm.get(recurso.controlName)?.value) {
-        const creditosNecessariosArray = this.formBuilder.array([1]);
-        const creditosPorSolicitacaoArray = this.formBuilder.array([1]);
-        this.modalForm.addControl(recurso.creditosNecessariosFormControl + 'Array', creditosNecessariosArray);
-        this.modalForm.addControl(recurso.creditosPorSolicitacaoFormControl + 'Array', creditosPorSolicitacaoArray);
+      const creditosNecessariosControl = new FormControl(1, [Validators.required, Validators.min(1)]);
+      const creditosPorSolicitacaoControl = new FormControl(1, [Validators.required, Validators.min(1)]);
+      
+      this.modalForm.addControl(`${recurso.creditosNecessariosFormControl}Array`, creditosNecessariosControl);
+      this.modalForm.addControl(`${recurso.creditosPorSolicitacaoFormControl}Array`, creditosPorSolicitacaoControl);
+
+      if (!this.modalForm.get(recurso.controlName)?.value) {
+        creditosNecessariosControl.disable();
+        creditosPorSolicitacaoControl.disable();
       }
     });
   }
+  
 
   toggleCreditControls(recursoControlName: string): void {
-    const isChecked = this.modalForm.get(recursoControlName)?.value;
-    if (isChecked) {
-      const recurso = this.recursos.find(r => r.controlName === recursoControlName);
-      if (recurso) {
-        const creditosNecessariosArray = this.formBuilder.array([1]);
-        const creditosPorSolicitacaoArray = this.formBuilder.array([1]);
-        this.modalForm.addControl(recurso.creditosNecessariosFormControl + 'Array', creditosNecessariosArray);
-        this.modalForm.addControl(recurso.creditosPorSolicitacaoFormControl + 'Array', creditosPorSolicitacaoArray);
-      }
-    } else {
-      const recurso = this.recursos.find(r => r.controlName === recursoControlName);
-      if (recurso) {
-        this.modalForm.removeControl(recurso.creditosNecessariosFormControl + 'Array');
-        this.modalForm.removeControl(recurso.creditosPorSolicitacaoFormControl + 'Array');
+    const recurso = this.recursos.find(r => r.controlName === recursoControlName);
+  
+    if (recurso) {
+      const isChecked = this.modalForm.get(recursoControlName)?.value;
+      const creditosNecessariosControl = this.modalForm.get(`${recurso.creditosNecessariosFormControl}Array`);
+      const creditosPorSolicitacaoControl = this.modalForm.get(`${recurso.creditosPorSolicitacaoFormControl}Array`);
+  
+      if (isChecked) {
+        creditosNecessariosControl?.enable();
+        creditosPorSolicitacaoControl?.enable();
+      } else {
+        creditosNecessariosControl?.disable();
+        creditosPorSolicitacaoControl?.disable();
       }
     }
   }
+  
 
   decrementarQuantidade(){
     this.quantidadeProcessosAtual--;
@@ -96,13 +102,41 @@ export class CreateProcess2ModalComponent implements OnInit {
     this.bankerService.setTotalProcessQuantity(this.quantidadeProcessosAtual);
   }
   
-  confirmData(){
-    this.bankerService.updateProcessStatus(true);
+  confirmData() {
+    const processosExistentes = this.bankerService.process.getValue() || [];
+    const novosProcessos: Process[] = [];
+    for(let i = 0; i < this.quantidadeProcessosAtual; i++){
+        const creditosNecessariosRecurso1 = this.modalForm.value['creditosNecessarios1Array'] || 0;
+        const creditosPorSolicitacaoRecurso1 = this.modalForm.value['creditosPorSolicitacao1Array'] || 0; 
+        const creditosNecessariosRecurso2 = this.modalForm.value['creditosNecessarios2Array'] || 0;
+        const creditosPorSolicitacaoRecurso2 = this.modalForm.value['creditosPorSolicitacao2Array'] || 0; 
+        const creditosNecessariosRecurso3 = this.modalForm.value['creditosNecessarios3Array'] || 0;
+        const creditosPorSolicitacaoRecurso3 = this.modalForm.value['creditosPorSolicitacao3Array'] || 0; 
+        const creditosNecessariosRecurso4 = this.modalForm.value['creditosNecessarios4Array'] || 0;
+        const creditosPorSolicitacaoRecurso4 = this.modalForm.value['creditosPorSolicitacao4Array'] || 0; 
+
+        const novoProcesso: Process = {
+            codigoIdentificacao: Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000,
+            creditosNecessariosRecurso1,
+            creditosPorSolicitacaoRecurso1,
+            creditosNecessariosRecurso2,
+            creditosPorSolicitacaoRecurso2,
+            creditosNecessariosRecurso3,
+            creditosPorSolicitacaoRecurso3,
+            creditosNecessariosRecurso4,
+            creditosPorSolicitacaoRecurso4,
+            status: 'ativo'
+        };
+        novosProcessos.push(novoProcesso);
+    }
+    this.processes = [...processosExistentes, ...novosProcessos];
+    
+    this.bankerService.setProcess(this.processes);
+
     this.dialogRef.close();
-  }
+}
 
   fecharModal(): void {
     this.dialogRef.close();
-    this.bankerService.updateProcessStatus(false);
   }
 }

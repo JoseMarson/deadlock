@@ -36,14 +36,6 @@ export class ResourceManagerComponent {
   
     this.bankerService.currentCreatedRecurses$.subscribe(valor => {
       const creditosRecursoArray = this.bankerForm.get('creditosRecursoArray') as FormArray;
-      creditosRecursoArray.clear();
-      
-      if(valor.length > 0 ){
-        valor.forEach((v: any) => creditosRecursoArray.push(v));
-        console.log(valor, creditosRecursoArray)
-      }else{
-        creditosRecursoArray.push([1]);
-      } 
     });
   }
   
@@ -57,8 +49,6 @@ export class ResourceManagerComponent {
     for (let i = 0; i < quantidade; i++) {
       creditosRecursoArrayControl.push(this.formBuilder.control(1));
     }
-   
-    console.log('console aqui : ', creditosRecursoArrayControl )
    
   }
   
@@ -126,20 +116,23 @@ export class ResourceManagerComponent {
 
     this.modoReset = !this.modoReset;
     if(this.modoReset){
-      this.bankerService.updateProcessStatus(false);
-      //const creditosRecursoArray = this.bankerForm.get('creditosRecursoArray') as FormArray;
       const payload = {
         quantidadeRecurso: this.bankerForm.controls['quantidadeRecurso'].value,
         creditosRecursoArray: this.bankerForm.controls['creditosRecursoArray'].value
       }
-      console.log('aaaaaaaaaaa', payload)
       this.bankerService.setRecurses(payload)
-      console.log(this.bankerForm.controls)
+      this.bankerService.updateProcessStatus(true);
     }
-    else{
-      //const creditosRecursoArray = this.bankerForm.get('creditosRecursoArray') as FormArray;
-      //this.bankerService.setRecurses(creditosRecursoArray.value)
-      console.log(this.bankerService.recurses)
+    else {
+      this.bankerForm.controls['quantidadeRecurso'].setValue(1);
+      this.bankerForm.controls['creditosRecursoArray'].setValue([1]);
+      const payload = {
+        quantidadeRecurso: 1,
+        creditosRecursoArray: this.bankerForm.controls['creditosRecursoArray'].value
+      };
+      this.bankerService.setRecurses(payload);
+      this.bankerService.updateProcessStatus(false);
     }
+    
   }
 }

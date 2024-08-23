@@ -4,17 +4,10 @@
       <mat-icon class="close-icon">close</mat-icon>
     </button>
   </div>
-  <div style="display: flex; justify-content: space-between">
+  <div style="display: flex; justify-content: space-between; gap: 10px">
     <h1 mat-dialog-title>Criação de processo</h1>
     <h3 style="text-decoration: underline; margin-top: 20px;">Máx Processos Permitido: <b>{{ maxProcesses }}</b></h3>
   </div>
-  <!-- <div class="qtdProcess">
-    <mat-form-field appearance="outline" style="text-align: center;">
-      <mat-label style="color: rgb(103, 104, 106);">Quantidade de processos:</mat-label>
-      <input matInput type="number" formControlName="quantidadeProcessos" min="1" [max]="maxProcesses" style="text-align: center;"/>
-    </mat-form-field>
-  </div> -->
-
 
   <div class="seletor qtdProcess">
     <mat-form-field appearance="outline" style="text-align: center;">
@@ -36,7 +29,7 @@
         <mat-checkbox (change)="toggleCreditControls(recurso.controlName)" formControlName="{{ recurso.controlName }}">
           {{ recurso.label }}
         </mat-checkbox>
-        <div *ngIf="modalForm.get(recurso.controlName)?.value"> 
+        <div *ngIf="modalForm.get(recurso.controlName)?.value">   
           <mat-form-field appearance="outline" class="seletor">
             <mat-label style="color: rgb(103, 104, 106);">Créditos necessários:</mat-label>
             <input matInput type="number" formControlName="{{ recurso.creditosNecessariosFormControl }}Array" min="1" [max]="maxProcesses" style="text-align: center;" />

@@ -1,6 +1,10 @@
 p{
     margin: 0;
 }
+.container{
+    display: flex;
+    justify-content: center;
+}
 .recurses{
     padding: 25px;
     display: flex;

@@ -17,7 +17,6 @@ export class LogicApplicationPhilosophersComponent implements OnChanges, OnDestr
   ngOnChanges(changes: SimpleChanges): void {
     const quantidadeFilosofos = this.quantidadeFilosofos ?? 0;
     if (changes['quantidadeFilosofos'] && quantidadeFilosofos !== undefined) {
-      console.log('Valor atualizado:', quantidadeFilosofos);
       this.atualizarImagemFilosofo();
       this.inicializarFilosofos();
       this.iniciarTemporizador();

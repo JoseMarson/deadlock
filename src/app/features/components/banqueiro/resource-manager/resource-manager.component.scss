@@ -76,6 +76,10 @@
 	background-color: rgb(33, 150, 243);
 	color: #fff;
 }
+.banqueiro-settings .abrir-modal:disabled {
+	background-color: rgb(97, 98, 99);
+	color: #fff;
+  }
 .dynamic-elements-container {
 	margin-right: 10px;
 	display: flex;

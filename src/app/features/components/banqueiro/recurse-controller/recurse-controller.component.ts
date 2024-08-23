@@ -10,15 +10,15 @@ export class RecurseControllerComponent {
 
   constructor(private bankerService : BankerService) { }
   quantidadeDeRecursos: number = 1;
-  recursos: any[] = [];
+  recursos: any= null;
  
 
   ngOnInit() {
     this.bankerService.currentCreatedRecurses$.subscribe(valor => {
-      this.recursos = valor.length > 0 ? valor : [{ id: 1, creditosDisponiveis: 1 }];
-      this.quantidadeDeRecursos = this.recursos.length; 
+      if (valor != null) {
+        this.recursos = valor.creditosRecursoArray;
+        this.quantidadeDeRecursos = valor.quantidadeRecurso; 
+      }
     });
-  
-    console.log('Recursos iniciais:', this.recursos);
   }
 }
